@@ -30,5 +30,5 @@ app.post('/api/auth/register', async function(req, res){
 })
 
 app.listen(3000, ()=>{
-    console.log('Server Started');    
+    console.log('Server Started at 3000');    
 })
