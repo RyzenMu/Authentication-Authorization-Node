@@ -29,6 +29,33 @@ app.post('/api/auth/register', async function(req, res){
     }
 })
 
+app.get('api/auth/current',ensureAuthenticated, async (req, res) => {
+    try {
+        const user = await users.findOne({_id: req.user.id});
+        return res.status(200).json({
+            id: user._id,
+            name: user.name,
+            email: user.email
+        })
+    } catch (error) {
+        return res.status(401).json({message: error.message});
+    }
+}); 
+
+async function ensureAuthenticated(req, res, next) {
+    const accessToken = req.headers.authorization;
+    if (!accessToken) {
+        return res.status(401).json({message : 'Access Token Not Found'});
+    }
+    try {
+        const decodedAccessToken = jwt.verify(accessToken, config.accessTokenSecret);
+        req.user = {id: decodedAccessToken.userId};
+        next();
+    } catch (error) {
+        return res.status(401).json({message : 'Access token invalid or expired'});
+    }
+}
+
 app.listen(3000, ()=>{
     console.log('Server Started at 3000');    
 })
