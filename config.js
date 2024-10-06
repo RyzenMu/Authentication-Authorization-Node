@@ -1,4 +1,7 @@
 module.exports = {
     accessTokenSecret: "myAccessTokenSecret",
-    refreshTokenSecret: "myRefreshTokensecret"
+    accessTokenExpiresIn: "30s",
+
+    refreshTokenSecret: "myRefreshTokensecret",
+    refreshTokenExpiresIn:"2m"
 }
